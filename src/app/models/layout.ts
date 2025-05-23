@@ -1,7 +1,6 @@
-import { Theme } from './theme';
-
 export type TextAlignment = 'left' | 'right' | 'center';
 
+// Основна стилізуюча структура для компонентів
 export interface Style {
   top?: string;
   left?: string;
@@ -16,8 +15,19 @@ export interface Style {
   fontSize?: string;
   textColor?: string;
   textAlign?: TextAlignment;
+
+  display?: 'flex' | 'grid';
+  flexDirection?: 'row' | 'column';
+  justifyContent?: string;
+  alignItems?: string;
+  gap?: string;
+  gridTemplateColumns?: string;
+  gridTemplateRows?: string;
+
+  boxSizing?: 'border-box' | 'content-box';
 }
 
+// Типи компонентів
 export type ComponentType =
   | 'text'
   | 'clock'
@@ -29,19 +39,19 @@ export type ComponentType =
   | 'info-article'
   | 'news-ticker';
 
+// Шаблон для рендерингу айтемів
 export interface ItemTemplateProperties {
   templateId: string;
   contentSize?: 'small' | 'medium' | 'large';
   colorScheme?: string;
 }
 
+// Базовий інтерфейс для всіх компонентів
 export interface BaseComponent {
   id: string;
   name: string;
   type: ComponentType;
-
   style?: Style;
-
   grid?: {
     row: number;
     column: number;
@@ -50,6 +60,7 @@ export interface BaseComponent {
   };
 }
 
+// Компоненти за типами
 export interface TextComponent extends BaseComponent {
   type: 'text' | 'clock';
   text?: string;
@@ -64,15 +75,32 @@ export interface LogoComponent extends BaseComponent {
   type: 'logo';
 }
 
+// export interface TicketData {
+//   value: string;
+//   status: string;
+//   containerStyle?: Style;
+//   numberStyle?: Style;
+//   badgeStyle?: Style;
+//   counter?: string;
+//   counterStyle?: Style;
+//   optionalText?: string;
+//   optionalTextStyle?: Style;
+//   orientation?: 'row' | 'column';
+// }
 export interface TicketData {
   value: string;
-  status?: string;
+  status: string;
+  styleId?: string; // посилання на стиль
+}
+
+export interface TicketItemStyleMap {
+  [id: string]: Style;
 }
 
 export interface ListComponent extends BaseComponent {
   type: 'ticket-list' | 'counter-list';
   listOrientation: 'horizontal' | 'vertical';
-  items: TicketData[];
+  dataSource?: string;
   itemTemplate: ItemTemplateProperties;
   gap?: string;
   columns?: number;
@@ -80,14 +108,8 @@ export interface ListComponent extends BaseComponent {
   overflow?: 'auto-scroll' | 'hidden';
   newItemAnimation?: 'slide';
   newItemDirection?: 'from-start' | 'from-end';
-}
-
-export interface TicketListComponent extends ListComponent {
-  type: 'ticket-list';
-}
-
-export interface CounterListComponent extends ListComponent {
-  type: 'counter-list';
+  items?: TicketData[];
+  ticketItemStyles?: { [key: string]: Style };
 }
 
 export interface SingleTicketDisplayComponent extends BaseComponent {
@@ -112,6 +134,7 @@ export interface NewsTickerComponent extends BaseComponent {
   textSize: string;
 }
 
+// Обʼєднаний тип всіх компонентів
 export type Component =
   | TextComponent
   | HtmlComponent
@@ -121,12 +144,30 @@ export type Component =
   | InfoArticleComponent
   | NewsTickerComponent;
 
-export interface LayoutGrid {
-  columns: number;
-  rows: number;
-  gap?: string;
+// Тема
+export interface Theme {
+  name: 'default' | 'dark' | 'custom';
+  backgroundColor: string;
+  textColor: string;
+  accentColor: string;
+  badgeColor?: string;
+  colors: {
+    background: string;
+    foreground: string;
+    primary: string;
+    text: {
+      default: string;
+      contrast: string;
+      subdued: string;
+    };
+  };
+  font: {
+    sizeBase: string;
+  };
+  borderRadius: string;
 }
 
+// Основна модель Layout
 export interface Layout {
   name: string;
   width: string;
@@ -134,6 +175,6 @@ export interface Layout {
   theme: Theme['name'];
   customThemeUrl?: string;
   editorGridSize?: string;
-  layoutGrid?: LayoutGrid;
   components: Component[];
+  style?: Style;
 }

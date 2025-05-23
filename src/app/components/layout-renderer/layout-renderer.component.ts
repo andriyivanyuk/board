@@ -5,7 +5,7 @@ import {
   Layout,
   Component as LayoutComponent,
   TextComponent,
-  TicketListComponent,
+  ListComponent,
 } from '../../models/layout';
 import { getThemeByName } from '../../data/themes';
 

@@ -4,14 +4,10 @@
     width: layout()!.width,
     height: layout()!.height,
     position: 'relative',
-    display: layout()!.layoutGrid ? 'grid' : 'block',
-    gridTemplateColumns: layout()!.layoutGrid
-      ? 'repeat(' + layout()!.layoutGrid!.columns + ', 1fr)'
-      : '',
-    gridTemplateRows: layout()!.layoutGrid
-      ? 'repeat(' + layout()!.layoutGrid!.rows + ', 1fr)'
-      : '',
-    gap: layout()!.layoutGrid?.gap
+    display: layout()!.style?.display ?? 'block',
+    gridTemplateColumns: layout()!.style?.gridTemplateColumns,
+    gridTemplateRows: layout()!.style?.gridTemplateRows,
+    gap: layout()!.style?.gap
   }"
 >
   @for (entry of renderableComponents(); track entry.component.id) { @switch

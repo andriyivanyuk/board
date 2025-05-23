@@ -1,11 +1,9 @@
 <div [ngStyle]="styles()">
   @for (item of items(); track item.value) {
   <app-ticket-item
-    [value]="item.value"
-    [status]="item.status"
-    [width]="itemWidth() + 'px'"
-    [height]="itemHeight() + 'px'"
-    [theme]="theme()"
+    [item]="item"
+    [size]="itemDimensions()"
+    [styleMap]="styleMap()"
   />
   }
 </div>

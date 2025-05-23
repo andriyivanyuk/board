@@ -1,7 +1,6 @@
-// ticket-item.component.ts
-import { Component, computed, input } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Theme } from '../../models/theme';
+import { TicketData, Style } from '../../models/layout';
 
 @Component({
   selector: 'app-ticket-item',
@@ -10,22 +9,27 @@ import { Theme } from '../../models/theme';
   templateUrl: './ticket-item.component.html',
 })
 export class TicketItemComponent {
-  readonly value = input<string>();
-  readonly status = input<string>();
-  readonly width = input<string>();
-  readonly height = input<string>();
-  readonly theme = input<Theme>();
+  readonly item = input<TicketData>();
+  readonly size = input<{ width: string; height: string }>();
+  readonly styleMap = input<{ [key: string]: Style }>();
 
-  readonly styles = computed(() => ({
-    width: this.width(),
-    height: this.height(),
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0 12px',
-    backgroundColor: this.theme()!.colors.foreground,
-    color: this.theme()!.colors.text.default,
-    borderRadius: this.theme()!.borderRadius,
-    fontSize: this.theme()!.font.sizeBase,
-  }));
+  readonly styles = computed(() => {
+    const styleId = this.item()?.styleId;
+    const s = this.styleMap()?.[styleId ?? ''] ?? {};
+
+    return {
+      width: this.size()?.width,
+      height: this.size()?.height,
+      display: s.display ?? 'flex',
+      flexDirection: s.flexDirection ?? 'row',
+      justifyContent: s.justifyContent ?? 'space-between',
+      alignItems: s.alignItems ?? 'center',
+      padding: s.padding ?? '0 12px',
+      backgroundColor: s.backgroundColor ?? '#222',
+      borderRadius: s.borderRadius ?? '8px',
+      fontSize: s.fontSize ?? '16px',
+      color: s.textColor ?? '#fff',
+      boxSizing: s.boxSizing ?? 'border-box',
+    };
+  });
 }
