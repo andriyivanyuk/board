@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { LayoutRendererComponent } from './components/layout-renderer/layout-renderer.component';
+import { defaultLayout } from './data/layouts';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [LayoutRendererComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'board';
+  readonly layout = defaultLayout;
 }

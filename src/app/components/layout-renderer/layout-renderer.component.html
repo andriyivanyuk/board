@@ -1,0 +1,36 @@
+<div
+  class="layout"
+  [ngStyle]="{
+    width: layout()!.width,
+    height: layout()!.height,
+    position: 'relative',
+    display: layout()!.layoutGrid ? 'grid' : 'block',
+    gridTemplateColumns: layout()!.layoutGrid
+      ? 'repeat(' + layout()!.layoutGrid!.columns + ', 1fr)'
+      : '',
+    gridTemplateRows: layout()!.layoutGrid
+      ? 'repeat(' + layout()!.layoutGrid!.rows + ', 1fr)'
+      : '',
+    gap: layout()!.layoutGrid?.gap
+  }"
+>
+  @for (entry of renderableComponents(); track entry.component.id) { @switch
+  (entry.component.type) { @case ('text') {
+  <app-text
+    [text]="entry.component.text"
+    [textAlign]="entry.component.style?.textAlign"
+    [theme]="theme()"
+    [ngStyle]="entry.style"
+  />
+  } @case ('ticket-list') {
+  <app-ticket-list
+    [layout]="entry.component"
+    [theme]="theme()"
+    [ngStyle]="entry.style"
+  />
+  } @default {
+  <div [ngStyle]="entry.style">
+    Unknown component: {{ entry.component.type }}
+  </div>
+  } } }
+</div>
