@@ -17,6 +17,8 @@ export class TicketItemComponent {
     const styleId = this.item()?.styleId;
     const s = this.styleMap()?.[styleId ?? ''] ?? {};
 
+    console.log(s);
+
     return {
       width: this.size()?.width,
       height: this.size()?.height,
@@ -25,7 +27,7 @@ export class TicketItemComponent {
       justifyContent: s.justifyContent ?? 'space-between',
       alignItems: s.alignItems ?? 'center',
       padding: s.padding ?? '0 12px',
-      backgroundColor: s.backgroundColor ?? '#222',
+      backgroundColor: s.backgroundColor ?? 'red',
       borderRadius: s.borderRadius ?? '8px',
       fontSize: s.fontSize ?? '16px',
       color: s.textColor ?? '#fff',
