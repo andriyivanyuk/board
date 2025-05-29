@@ -1,47 +1,51 @@
 import { Layout } from '../models/layout';
 
 export const defaultLayout: Layout = {
-  name: 'Single Column Layout',
+  name: 'Queue Layout - 3 Columns',
   width: '100%',
-  height: '100vh',
-  theme: 'dark',
+  height: 'auto',
+  theme: 'default',
   components: [
     {
-      id: 'ticket-list-column',
-      name: 'Column List',
-      type: 'ticket-list',
-      listOrientation: 'vertical',
-      columns: 1,
-      rows: 3,
-      gap: '16',
+      id: 'lists-row',
+      name: 'Ticket Lists Row',
+      type: 'container',
+      direction: 'row',
       style: {
-        width: '300',
-        height: '600',
-        padding: '16px',
+        display: 'flex',
+        flexDirection: 'row',
+        gap: '24px',
+        padding: '24px',
+        alignItems: 'flex-start',
+        width: '100%',
       },
-      itemTemplate: {
-        templateId: 'default',
-      },
-      items: [
-        { value: 'A101', status: 'Ready', styleId: 'green' },
-        { value: 'B202', status: 'Waiting', styleId: 'gray' },
-        { value: 'C303', status: 'Called', styleId: 'yellow' },
+      children: [
+        {
+          id: 'waiting-tickets',
+          name: 'Waiting tickets',
+          type: 'ticket-list',
+          listOrientation: 'vertical',
+          itemTemplate: { templateId: 'basic', colorScheme: 'green' },
+          rows: 6,
+          columns: 1,
+          gap: '8px',
+          items: [
+            { value: 'AS56', status: 'Get ready', styleId: 'green' },
+            { value: 'AS56', status: 'Get ready', styleId: 'green' },
+            { value: 'AS56', status: 'Get ready', styleId: 'green' },
+            { value: 'AS56', status: '', styleId: 'gray' },
+            { value: 'AS56', status: '', styleId: 'gray' },
+            { value: 'AS56', status: '', styleId: 'gray' },
+          ],
+          style: {
+            width: '300px',
+            height: '480px',
+            padding: '12px',
+            borderRadius: '8px',
+            backgroundColor: '#f9f9f9',
+          },
+        },
       ],
-      ticketItemStyles: {
-        green: {
-          backgroundColor: '#d4edda',
-          textColor: '#155724',
-          fontSize: '18px',
-        },
-        gray: {
-          backgroundColor: '#e2e3e5',
-          textColor: '#383d41',
-        },
-        yellow: {
-          backgroundColor: '#fff3cd',
-          textColor: '#856404',
-        },
-      },
     },
   ],
 };

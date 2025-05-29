@@ -1,5 +1,10 @@
+import { Style } from './layout';
+
 export interface Theme {
   name: 'default' | 'dark' | 'custom';
+  header: {
+    [key: string]: Style;
+  };
   colors: {
     background: string;
     foreground: string;
@@ -21,5 +26,9 @@ export interface Theme {
     sizeLarge?: string;
     family?: string;
   };
+  ticketItemStyles?: {
+    [key: string]: Style;
+  };
+
   borderRadius: string;
 }

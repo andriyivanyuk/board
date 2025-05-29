@@ -1,6 +1,5 @@
 export type TextAlignment = 'left' | 'right' | 'center';
 
-// Основна стилізуюча структура для компонентів
 export interface Style {
   top?: string;
   left?: string;
@@ -10,11 +9,13 @@ export interface Style {
   height?: string;
   zIndex?: number;
   padding?: string;
+  position?: string;
   backgroundColor?: string;
   borderRadius?: string;
   fontSize?: string;
   textColor?: string;
   textAlign?: TextAlignment;
+  marginLeft?: string;
 
   display?: 'flex' | 'grid';
   flexDirection?: 'row' | 'column';
@@ -29,6 +30,7 @@ export interface Style {
 
 // Типи компонентів
 export type ComponentType =
+  | 'container'
   | 'text'
   | 'clock'
   | 'html'
@@ -37,7 +39,8 @@ export type ComponentType =
   | 'counter-list'
   | 'single-ticket-display'
   | 'info-article'
-  | 'news-ticker';
+  | 'news-ticker'
+  | 'background';
 
 // Шаблон для рендерингу айтемів
 export interface ItemTemplateProperties {
@@ -60,7 +63,16 @@ export interface BaseComponent {
   };
 }
 
-// Компоненти за типами
+export interface ContainerComponent extends BaseComponent {
+  type: 'container';
+  direction?: 'row' | 'column' | 'grid';
+  gap?: string;
+  padding?: string;
+  columns?: number;
+  rows?: number;
+  children: Component[];
+}
+
 export interface TextComponent extends BaseComponent {
   type: 'text' | 'clock';
   text?: string;
@@ -72,21 +84,10 @@ export interface HtmlComponent extends BaseComponent {
 }
 
 export interface LogoComponent extends BaseComponent {
+  path: string;
   type: 'logo';
 }
 
-// export interface TicketData {
-//   value: string;
-//   status: string;
-//   containerStyle?: Style;
-//   numberStyle?: Style;
-//   badgeStyle?: Style;
-//   counter?: string;
-//   counterStyle?: Style;
-//   optionalText?: string;
-//   optionalTextStyle?: Style;
-//   orientation?: 'row' | 'column';
-// }
 export interface TicketData {
   value: string;
   status: string;
@@ -109,13 +110,16 @@ export interface ListComponent extends BaseComponent {
   newItemAnimation?: 'slide';
   newItemDirection?: 'from-start' | 'from-end';
   items?: TicketData[];
-  ticketItemStyles?: { [key: string]: Style };
 }
 
 export interface SingleTicketDisplayComponent extends BaseComponent {
   type: 'single-ticket-display';
   dataSource: string;
   itemTemplate: ItemTemplateProperties;
+}
+
+export interface BackgroundComponent extends BaseComponent {
+  type: 'background';
 }
 
 export interface InfoArticleComponent extends BaseComponent {
@@ -134,7 +138,6 @@ export interface NewsTickerComponent extends BaseComponent {
   textSize: string;
 }
 
-// Обʼєднаний тип всіх компонентів
 export type Component =
   | TextComponent
   | HtmlComponent
@@ -142,7 +145,9 @@ export type Component =
   | ListComponent
   | SingleTicketDisplayComponent
   | InfoArticleComponent
-  | NewsTickerComponent;
+  | NewsTickerComponent
+  | ContainerComponent
+  | BackgroundComponent;
 
 // Тема
 export interface Theme {
@@ -167,7 +172,6 @@ export interface Theme {
   borderRadius: string;
 }
 
-// Основна модель Layout
 export interface Layout {
   name: string;
   width: string;

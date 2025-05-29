@@ -1,29 +1,55 @@
 <div
-  class="layout"
   [ngStyle]="{
-    width: layout()!.width,
-    height: layout()!.height,
+    width: layout()?.width,
+    height: layout()?.height,
     position: 'relative',
-    display: layout()!.style?.display ?? 'block',
-    gridTemplateColumns: layout()!.style?.gridTemplateColumns,
-    gridTemplateRows: layout()!.style?.gridTemplateRows,
-    gap: layout()!.style?.gap
+    display: layout()?.style?.display ?? 'block',
+    gridTemplateColumns: layout()?.style?.gridTemplateColumns,
+    gridTemplateRows: layout()?.style?.gridTemplateRows,
+    gap: layout()?.style?.gap
   }"
 >
   @for (entry of renderableComponents(); track entry.component.id) { @switch
-  (entry.component.type) { @case ('text') {
+  (entry.component.type) { @case ('logo') {
+
+  <app-logo [theme]="theme()" [logo]="entry.component" />
+  } @case ('text') {
   <app-text
     [text]="entry.component.text"
     [textAlign]="entry.component.style?.textAlign"
     [theme]="theme()"
     [ngStyle]="entry.style"
   />
+  } @case ('background') {
+  <app-background [theme]="theme()" [style]="entry.style" />
+  } @case ('clock') {
+  <app-text
+    [text]="''"
+    [textAlign]="entry.component.style?.textAlign"
+    [theme]="theme()"
+    [ngStyle]="entry.style"
+  />
+
   } @case ('ticket-list') {
   <app-ticket-list
     [layout]="entry.component"
     [theme]="theme()"
     [ngStyle]="entry.style"
   />
+  } @case ('container') {
+  <div [ngStyle]="entry.style">
+    <app-layout-renderer
+      [layout]="{
+        name: entry.component.name,
+        width: '100%',
+        height: 'auto',
+        theme: theme().name,
+        components: entry.component.children
+      }"
+    />
+  </div>
+  } @case ('background') {
+  <div [ngStyle]="entry.style"></div>
   } @default {
   <div [ngStyle]="entry.style">
     Unknown component: {{ entry.component.type }}

@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
@@ -11,11 +11,13 @@ import { getThemeByName } from '../../data/themes';
 
 import { TextComponent as TextRenderer } from '../text/text.component';
 import { TicketListComponent as TicketListRenderer } from '../ticket-list/ticket-list.component';
+import { LogoComponent } from '../logo/logo.component';
+import { BackgroundComponent } from "../background/background.component";
 
 @Component({
   selector: 'app-layout-renderer',
   standalone: true,
-  imports: [CommonModule, TextRenderer, TicketListRenderer],
+  imports: [CommonModule, TextRenderer, TicketListRenderer, LogoComponent, BackgroundComponent],
   templateUrl: './layout-renderer.component.html',
 })
 export class LayoutRendererComponent {

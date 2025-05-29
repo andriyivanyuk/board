@@ -1,10 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TicketItemComponent } from '../ticket-item/ticket-item.component';
 import {
   ListComponent as TicketListData,
   TicketData,
-  Style,
 } from '../../models/layout';
 import { Theme } from '../../models/theme';
 
@@ -42,9 +41,12 @@ export class TicketListComponent {
       gridTemplateColumns: `repeat(${this.columns()}, 1fr)`,
       gridTemplateRows: `repeat(${this.rows()}, 1fr)`,
       gap: this.gap() + 'px',
-      width: s.width,
-      height: s.height,
-      padding: s.padding,
+      width: s.width ?? '300px',
+      height: s.height ?? '600px',
+      padding: s.padding ?? '12px',
+      backgroundColor: s.backgroundColor ?? '#f0f0f0',
+      borderRadius: s.borderRadius ?? '8px',
+      boxSizing: 'border-box',
     };
   });
 
@@ -64,5 +66,5 @@ export class TicketListComponent {
     };
   });
 
-  readonly styleMap = computed(() => this.layout()?.ticketItemStyles ?? {});
+  readonly styleMap = computed(() => this.theme()?.ticketItemStyles ?? {});
 }
